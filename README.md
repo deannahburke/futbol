@@ -2,8 +2,8 @@
 
 ## Contributors
 
-Sage Skaff 
-Zac Hazelwood
-Jenn Hallorann
-Deannah Burke 
+-Sage Skaff 
+-Zac Hazelwood
+-Jenn Hallorann
+-Deannah Burke 
 
