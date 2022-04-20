@@ -4,11 +4,12 @@ require_relative 'team'
 require_relative 'game_team'
 require_relative './data_finder'
 require_relative './season_stats'
-
+require_relative './game_stats'
 
 class StatTracker
   include DataFinder
   include SeasonStats
+  include GameStats
 
   def self.from_csv(locations)
     StatTracker.new(locations)
@@ -226,28 +227,6 @@ class StatTracker
       games_by_team(home_or_away).each { |key, value| average_hash[key] = value[:goals].to_f / value[:number_of_games] }
     end
     average_hash
-  end
-
-
-
-  ####Deannah Game Stats helper methods
-
-  #Deannah -- helper to calculate percentage, has test but it's a little weird
-  def find_percentage(total)
-    (total.count / @games.count.to_f).round(2)
-  end
-
-  #Deannah -- helper method for average goals by season, has test
-  def count_of_goals_by_season
-    goals_by_season = {}
-    @games.each do |game|
-      if goals_by_season[game.season].nil?
-        goals_by_season[game.season] = game.home_goals + game.away_goals
-      else
-        goals_by_season[game.season] += game.home_goals + game.away_goals
-      end
-    end
-    goals_by_season
   end
 
   # Team Statistcs Helper Methods
