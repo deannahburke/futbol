@@ -16,7 +16,7 @@ class DataReader
   def initialize(file_paths)
     @games = create_objects(file_paths[:games], Game)
     @teams = create_objects(file_paths[:teams], Team)
-    @game_teams = create_objects(file_paths[:game_teams], GameTeam) #or whatever we call it
+    @game_teams = create_objects(file_paths[:game_teams], GameTeam) 
   end
 
   def create_objects(file_name, object)
