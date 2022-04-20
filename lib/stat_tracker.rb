@@ -2,14 +2,13 @@ require 'csv'
 require_relative 'game'
 require_relative 'team'
 require_relative 'game_team'
-require_relative './data_finder'
+require_relative './data_reader'
 require_relative './season_stats'
 require_relative './game_stats'
 require_relative './league_stats'
 require_relative './team_stats'
 
-class StatTracker
-  include DataFinder
+class StatTracker < DataReader
   include SeasonStats
   include GameStats
   include LeagueStats

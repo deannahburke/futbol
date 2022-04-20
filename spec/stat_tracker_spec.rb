@@ -1,6 +1,6 @@
 require './spec/spec_helper'
 require './lib/stat_tracker'
-require_relative '../lib/data_finder'
+require_relative '../lib/data_reader'
 
 RSpec.describe StatTracker do
 
