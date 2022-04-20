@@ -283,6 +283,11 @@ RSpec.describe StatTracker do
     expect(@stat_tracker.favorite_opponent("18")).to eq "DC United"
   end
 
+  it "lists opponent percentages by team" do
+
+    expect(@stat_tracker.opponent_win_percentages("6")).to be_a(Hash)
+  end
+
   it "can find rival of a team" do
     expect(@stat_tracker.rival("18")).to eq("Houston Dash").or(eq("LA Galaxy"))
   end

@@ -97,25 +97,11 @@ class StatTracker < DataReader
   end
 
   def favorite_opponent(id)
-    opponents = Hash.new
-    @teams.each do |team|
-      if team.team_id != id
-        opponents[team.team_name] = win_percentage_vs(team.team_id, id)
-      end
-    end
-    opponents.each{|k, v| opponents.delete(k) if !opponents[k].is_a?(Float)}
-    opponents.sort_by{|k, v| v}.first[0]
+    opponent_win_percentages(id).sort_by{|k, v| v}.first[0]
   end
 
   def rival(id)
-    opponents = Hash.new
-    @teams.each do |team|
-      if team.team_id != id
-        opponents[team.team_name] = win_percentage_vs(team.team_id, id)
-      end
-    end
-    opponents.each{|k, v| opponents.delete(k) if !opponents[k].is_a?(Float)}
-    opponents.sort_by{|k, v| v}.last[0]
+    opponent_win_percentages(id).sort_by{|k, v| v}.last[0]
   end
 
   def winningest_coach(season)
