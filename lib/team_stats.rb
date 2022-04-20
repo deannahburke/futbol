@@ -1,4 +1,4 @@
-require_relative './data_finder'
+require_relative './data_reader'
 
 module TeamStats
   def track_season_results(id)
@@ -30,5 +30,16 @@ module TeamStats
 
   def all_games_by_team(id)
     @game_teams.select {|game| game.team_id == id}
+  end
+
+  def opponent_win_percentages(id)
+    opponents = Hash.new
+    @teams.each do |team|
+      if team.team_id != id
+        opponents[team.team_name] = win_percentage_vs(team.team_id, id)
+      end
+    end
+    opponents.each{|k, v| opponents.delete(k) if !opponents[k].is_a?(Float)}
+    opponents
   end
 end

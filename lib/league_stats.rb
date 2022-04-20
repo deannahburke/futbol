@@ -1,5 +1,4 @@
-require_relative './data_finder'
-
+require_relative './data_reader'
 module LeagueStats
 
   def scoring_team(hoa, hol)
@@ -11,22 +10,34 @@ module LeagueStats
   end
 
   def games_by_team(home_or_away =nil)
+    if home_or_away == nil
+      add_all_games
+    else
+      add_games(home_or_away)
+    end
+  end
+
+  def add_games(home_or_away)
     games_by_team_hash = {}
     @game_teams.each do |game|
-      if home_or_away == nil
-        if games_by_team_hash[game.team_id].nil?
-          games_by_team_hash[game.team_id] = { goals: game.goals, number_of_games: 1 }
-        else
-          games_by_team_hash[game.team_id][:goals] += game.goals
-          games_by_team_hash[game.team_id][:number_of_games] += 1
-        end
+      if games_by_team_hash[game.team_id].nil? && game.hoa == home_or_away
+        games_by_team_hash[game.team_id] = { goals: game.goals, number_of_games: 1 }
+      elsif game.hoa == home_or_away
+        games_by_team_hash[game.team_id][:goals] += game.goals
+        games_by_team_hash[game.team_id][:number_of_games] += 1
+      end
+    end
+    games_by_team_hash
+  end
+
+  def add_all_games
+    games_by_team_hash = {}
+    @game_teams.each do |game|
+      if games_by_team_hash[game.team_id].nil?
+        games_by_team_hash[game.team_id] = { goals: game.goals, number_of_games: 1 }
       else
-        if games_by_team_hash[game.team_id].nil? && game.hoa == home_or_away
-          games_by_team_hash[game.team_id] = { goals: game.goals, number_of_games: 1 }
-        elsif game.hoa == home_or_away
-          games_by_team_hash[game.team_id][:goals] += game.goals
-          games_by_team_hash[game.team_id][:number_of_games] += 1
-        end
+        games_by_team_hash[game.team_id][:goals] += game.goals
+        games_by_team_hash[game.team_id][:number_of_games] += 1
       end
     end
     games_by_team_hash

@@ -1,6 +1,6 @@
 require './spec/spec_helper'
 require './lib/stat_tracker'
-require_relative '../lib/data_finder'
+require_relative '../lib/data_reader'
 
 RSpec.describe StatTracker do
 
@@ -281,6 +281,11 @@ RSpec.describe StatTracker do
 
   it "can find favorite opponent of a team" do
     expect(@stat_tracker.favorite_opponent("18")).to eq "DC United"
+  end
+
+  it "lists opponent percentages by team" do
+
+    expect(@stat_tracker.opponent_win_percentages("6")).to be_a(Hash)
   end
 
   it "can find rival of a team" do
