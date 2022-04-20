@@ -1,12 +1,4 @@
-require 'csv'
-require_relative 'game'
-require_relative 'team'
-require_relative 'game_team'
 require_relative './data_reader'
-require_relative './season_stats'
-require_relative './game_stats'
-require_relative './league_stats'
-require_relative './team_stats'
 
 class StatTracker < DataReader
   include SeasonStats
@@ -53,9 +45,7 @@ class StatTracker < DataReader
 
   def average_goals_by_season
     average_goals = {}
-    count_of_goals_by_season.each do |season, goals|
-      average_goals[season] = (goals.to_f / count_of_games_by_season[season]).round(2)
-    end
+    count_of_goals_by_season.each { |season, goals| average_goals[season] = (goals.to_f / count_of_games_by_season[season]).round(2) }
     average_goals
   end
 
