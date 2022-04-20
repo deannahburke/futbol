@@ -1,5 +1,3 @@
-
-
 class GameTeam
   attr_reader :game_id,
               :team_id,
@@ -34,5 +32,4 @@ class GameTeam
     @giveaways = data[:giveaways]
     @takeaways = data[:takeaways]
   end
-
 end

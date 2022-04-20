@@ -1,5 +1,3 @@
-
-
 class Team
 
   attr_reader :team_id,
@@ -17,6 +15,4 @@ class Team
     @stadium = data[:stadium]
     @link = data[:link]
   end
-
-
 end

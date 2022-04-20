@@ -1,4 +1,4 @@
-require_relative './data_finder'
+require_relative './data_reader'
 
 module SeasonStats
   def games_in_season(season)
@@ -38,11 +38,7 @@ module SeasonStats
     coaches = []
     win_loss_hash = games_in_season(season).group_by { |win_loss| win_loss.result[0..].to_s}
     win_loss_hash.each do |k, v|
-      if k == result
-        v.each do |coach|
-          coaches << coach.head_coach
-        end
-      end
+        v.each { |coach| coaches << coach.head_coach } if k == result
     end
     coach_hash = coaches.group_by { |coach| coach[0..]}.transform_values { |v| v.count}
   end
