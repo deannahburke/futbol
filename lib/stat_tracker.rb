@@ -145,10 +145,4 @@ class StatTracker < DataReader
   def lowest_scoring_home_team
     scoring_team("home", "lowest")
   end
-
-  def average_goals_by_season
-    average_goals = {}
-    count_of_goals_by_season.each { |season, goals| average_goals[season] = (goals.to_f / count_of_games_by_season[season]).round(2) }
-    average_goals
-  end
 end
