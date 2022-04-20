@@ -5,11 +5,13 @@ require_relative 'game_team'
 require_relative './data_finder'
 require_relative './season_stats'
 require_relative './game_stats'
+require_relative './league_stats'
 
 class StatTracker
   include DataFinder
   include SeasonStats
   include GameStats
+  include LeagueStats
 
   def self.from_csv(locations)
     StatTracker.new(locations)
@@ -185,48 +187,6 @@ class StatTracker
     average_goals = {}
     count_of_goals_by_season.each { |season, goals| average_goals[season] = (goals.to_f / count_of_games_by_season[season]).round(2) }
     average_goals
-  end
-
-##HELPER METHODS - LEAGUE STATISTICS
-
-  def scoring_team(hoa, hol)
-    if hol == "lowest"
-      @teams.find { |team| team.team_id == average_score_by_team(hoa).sort_by{|k, v| v}.first[0] }.team_name
-    elsif hol == "highest"
-      @teams.find { |team| team.team_id == average_score_by_team(hoa).sort_by{|k, v| v}.last[0] }.team_name
-    end
-  end
-
-  def games_by_team(home_or_away =nil)
-    games_by_team_hash = {}
-    @game_teams.each do |game|
-      if home_or_away == nil
-        if games_by_team_hash[game.team_id].nil?
-          games_by_team_hash[game.team_id] = { goals: game.goals, number_of_games: 1 }
-        else
-          games_by_team_hash[game.team_id][:goals] += game.goals
-          games_by_team_hash[game.team_id][:number_of_games] += 1
-        end
-      else
-        if games_by_team_hash[game.team_id].nil? && game.hoa == home_or_away
-          games_by_team_hash[game.team_id] = { goals: game.goals, number_of_games: 1 }
-        elsif game.hoa == home_or_away
-          games_by_team_hash[game.team_id][:goals] += game.goals
-          games_by_team_hash[game.team_id][:number_of_games] += 1
-        end
-      end
-    end
-    games_by_team_hash
-  end
-
-  def average_score_by_team(home_or_away =nil)
-    average_hash = {}
-    if home_or_away == nil
-      games_by_team.each { |key, value| average_hash[key] = value[:goals].to_f / value[:number_of_games] }
-    else
-      games_by_team(home_or_away).each { |key, value| average_hash[key] = value[:goals].to_f / value[:number_of_games] }
-    end
-    average_hash
   end
 
   # Team Statistcs Helper Methods
