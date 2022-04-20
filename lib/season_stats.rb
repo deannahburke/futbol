@@ -1,18 +1,14 @@
 require_relative './data_finder'
 
 module SeasonStats
-
-  ## Find season from games
   def games_in_season(season)
     @game_teams.find_all { |game| game.game_id[0..3] == season[0..3] }
   end
 
-  ## Find teams from id
   def team_name_from_id(id)
     @teams.find { |team| team.team_id == id }.team_name
   end
 
-  ## Helper method to check team tackles
   def teams_by_tackles(season)
     teams = Hash.new
     games_in_season(season).each do |game|
@@ -25,7 +21,6 @@ module SeasonStats
     teams.sort_by { |team, number| number }
   end
 
-  ##  Helper method that checks shot accuracy of all teams by a given season
   def shot_accuracy(season)
     teams = Hash.new
     games_in_season(season).each do |game|

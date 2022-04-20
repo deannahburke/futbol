@@ -5,10 +5,8 @@ require_relative '../lib/data_finder'
 RSpec.describe StatTracker do
 
   before(:all) do
-    # game_path = './data/games_fixture.csv'
     game_path = './data/games.csv'
     team_path = './data/teams.csv'
-    # game_teams_path = './data/game_teams_fixture.csv'
     game_teams_path = './data/game_teams.csv'
 
     locations = {
@@ -117,7 +115,6 @@ RSpec.describe StatTracker do
     expect(@stat_tracker.lowest_scoring_visitor).to eq("San Jose Earthquakes")
   end
 
-  #not sure an efficient way to test this
   it "returns a hash of home games played by each team" do
     expect(@stat_tracker.games_by_team("home").keys.count).to eq(32)
   end
@@ -193,8 +190,6 @@ RSpec.describe StatTracker do
   it "returns the lowest scoring home team" do
     expect(@stat_tracker.lowest_scoring_home_team).to eq("Utah Royals FC")
   end
-
-## SEASON STAT TESTS - Tested on actual dataset, NOT the fixtures
 
   it "lists games by season" do
 
@@ -365,14 +360,12 @@ RSpec.describe StatTracker do
     expect(@stat_tracker.fewest_tackles("20142015")).to eq "Orlando City SC"
   end
 
-  #Deannah -- helper method test. Not sure how to write this better because there are 3237 @games, .count counts array elements.  Ideas anyone??
   it "can calculate percentage" do
     total = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     expect(@stat_tracker.find_percentage(total)).to eq 0.00
   end
 
-  ##Deannah -- helper method test
   it "can count goals per season" do
     expected_hash = {
       "20122013"=>3322,

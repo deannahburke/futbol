@@ -6,18 +6,18 @@ require_relative './data_finder'
 require_relative './season_stats'
 require_relative './game_stats'
 require_relative './league_stats'
+require_relative './team_stats'
 
 class StatTracker
   include DataFinder
   include SeasonStats
   include GameStats
   include LeagueStats
+  include TeamStats
 
   def self.from_csv(locations)
     StatTracker.new(locations)
   end
-
-###### GAME STATISTICS - Deannah
 
   def highest_total_score
     @games.map {|game| game.away_goals + game.home_goals}.max
@@ -59,8 +59,6 @@ class StatTracker
     end
     average_goals
   end
-
-  ## TEAM STATISTICS
 
   def team_info(id)
     info = Hash.new
@@ -121,39 +119,29 @@ class StatTracker
     opponents.sort_by{|k, v| v}.last[0]
   end
 
-####### SEASON STATISTICS : All methods return Strings - Team Name || Head Coach
-
   def winningest_coach(season)
-# Name of the Coach with the best win percentage for the season
     coach_results("WIN", season).to_a.sort_by { |number| number[1] }.last[0]
   end
 
   def worst_coach(season)
-# Name of the Coach with the worst win percentage for the season
     coach_results("LOSS", season).to_a.sort_by { |number| number[1] }.first[0]
   end
 
   def most_accurate_team(season)
-# Name of the Team with the best ratio of shots to goals for the season
     team_name_from_id(shot_accuracy(season).last[0])
   end
 
   def least_accurate_team(season)
-# Name of the Team with the worst ratio of shots to goals for the season
     team_name_from_id(shot_accuracy(season).first[0])
   end
 
   def most_tackles(season)
-# Name of the Team with the most tackles in the season
     team_name_from_id(teams_by_tackles(season).last[0])
   end
 
   def fewest_tackles(season)
-# Name of the Team with the fewest tackles in the season
     team_name_from_id(teams_by_tackles(season).first[0])
   end
-
-########## LEAGUE STATISTICS - Jenn
 
   def count_of_teams
     @teams.count
@@ -188,38 +176,4 @@ class StatTracker
     count_of_goals_by_season.each { |season, goals| average_goals[season] = (goals.to_f / count_of_games_by_season[season]).round(2) }
     average_goals
   end
-
-  # Team Statistcs Helper Methods
-
-  def track_season_results(id)
-    track_season_results = {}
-    all_games_by_team(id).each do |game|
-      if track_season_results[game.game_id[0..3]].nil?
-        track_season_results[game.game_id[0..3]] = [game.result]
-      else
-        track_season_results[game.game_id[0..3]] << game.result
-      end
-    end
-    track_season_results
-  end
-
-  def win_percentage_vs(id1, id2)
-    wins = 0.0
-    total_games_played = @games.find_all{|game|
-      (game.home_team_id == id1 && game.away_team_id == id2) || (game.home_team_id == id2 && game.away_team_id == id1)}
-    @games.each do |game|
-      if game.home_team_id == id1 && game.away_team_id == id2 && game.home_goals > game.away_goals
-        wins += 1.0
-      elsif game.away_team_id == id1 && game.home_team_id == id2 && game.away_goals > game.home_goals
-        wins += 1.0
-      else
-      end
-    end
-    (wins / total_games_played.count).round(2) / 2
-  end
-
-  def all_games_by_team(id)
-    @game_teams.select {|game| game.team_id == id}
-  end
-
 end

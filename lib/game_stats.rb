@@ -1,13 +1,10 @@
 require_relative './data_finder'
 
 module GameStats
-
-  #Helper to calculate percentage, has test
   def find_percentage(total)
     (total.count / @games.count.to_f).round(2)
   end
 
-  #Helper method for average goals by season, has test
   def count_of_goals_by_season
     goals_by_season = {}
     @games.each do |game|
@@ -19,5 +16,4 @@ module GameStats
     end
     goals_by_season
   end
-
 end
