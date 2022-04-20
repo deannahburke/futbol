@@ -1,4 +1,4 @@
-require_relative './data_finder'
+require_relative './data_reader'
 
 module SeasonStats
   def games_in_season(season)

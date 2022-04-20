@@ -1,4 +1,4 @@
-require_relative './data_finder'
+require_relative './data_reader'
 
 module TeamStats
   def track_season_results(id)
